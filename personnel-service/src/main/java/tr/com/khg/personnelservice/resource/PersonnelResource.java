@@ -1,5 +1,6 @@
 package tr.com.khg.personnelservice.resource;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,9 +9,7 @@ import tr.com.khg.personnelservice.domain.Personnel;
 import tr.com.khg.personnelservice.domain.PersonnelDetails;
 import tr.com.khg.personnelservice.domain.PersonnelInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,6 +23,7 @@ public class PersonnelResource {
     }
 
     @RequestMapping(value = "/getAllPersonnel", method = RequestMethod.GET)
+    @HystrixCommand(fallbackMethod = "getFallBackPersonnel")
     public List<Personnel> getAllPersonnel() {
         // servis isimleri ile rest template kullanılaması için rest template load balaced annotasyonu ile işaretlemeli
         List<Map<String, Object>> result = restTemplate.getForObject("http://PERSONNEL-INFO-SERVICE/personnel-info/getAll", List.class);
@@ -51,5 +51,9 @@ public class PersonnelResource {
 
             return personnel;
         }).collect(Collectors.toList());
+    }
+
+    public List<Personnel> getFallBackPersonnel() {
+        return Collections.singletonList(new Personnel("Server unreachable", "", "", "", ""));
     }
 }
