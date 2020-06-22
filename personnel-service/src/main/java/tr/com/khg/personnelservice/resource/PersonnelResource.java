@@ -1,8 +1,5 @@
 package tr.com.khg.personnelservice.resource;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +25,8 @@ public class PersonnelResource {
 
     @RequestMapping(value = "/getAllPersonnel", method = RequestMethod.GET)
     public List<Personnel> getAllPersonnel() {
-        List<Map<String, Object>> result = restTemplate.getForObject("http://localhost:7001/personnel-info/getAll", List.class);
+        // servis isimleri ile rest template kullanılaması için rest template load balaced annotasyonu ile işaretlemeli
+        List<Map<String, Object>> result = restTemplate.getForObject("http://PERSONNEL-INFO-SERVICE/personnel-info/getAll", List.class);
 
         List<PersonnelInfo>personnelInfos = new ArrayList<>();
 
@@ -46,7 +44,7 @@ public class PersonnelResource {
             personnel.setSurname(personnelInfo.getSurname());
             personnel.setRegistry(personnelInfo.getRegistry());
 
-            PersonnelDetails personnelDetails = restTemplate.getForObject("http://localhost:7002/personnel-details/getPersonnelDetails/" + personnel.getRegistry(), PersonnelDetails.class);
+            PersonnelDetails personnelDetails = restTemplate.getForObject("http://PERSONNEL-DETAILS-SERVICE/personnel-details/getPersonnelDetails/" + personnel.getRegistry(), PersonnelDetails.class);
 
             personnel.setJob(personnelDetails.getJob());
             personnel.setPlace_of_birth(personnelDetails.getPlace_of_birth());
