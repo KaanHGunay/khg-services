@@ -4,6 +4,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tr.com.khg.personnelservice.domain.PersonnelInfo;
@@ -14,11 +15,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/*
+    RefreshScope dinamik olarak ayarların değiştirilmesi için gerekli
+    Ayrıca dinamik değişim için spring-boot-starter-actuator pom'a eklenmeli
+    Refresh edilmesi için => service-url/actuator/refresh 'e post request oluşturulmalı
+ */
+
 @Service
 @Slf4j
+@RefreshScope
 public class PersonnelInfoServiceImpl implements PersonnelInfoService {
 
-    @Value("extern.log.message")
+    @Value("${extern.log.message}")
     private String logMessage;
 
     private final RestTemplate restTemplate;
