@@ -2,6 +2,8 @@ package tr.com.khg.personnelservice.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tr.com.khg.personnelservice.domain.PersonnelInfo;
@@ -13,7 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class PersonnelInfoServiceImpl implements PersonnelInfoService {
+
+    @Value("extern.log.message")
+    private String logMessage;
 
     private final RestTemplate restTemplate;
 
@@ -37,6 +43,9 @@ public class PersonnelInfoServiceImpl implements PersonnelInfoService {
         }
     )
     public List<PersonnelInfo> getAllPersonnelInfos() {
+
+        log.info("Property from server: {}", logMessage);
+
         List<Map<String, Object>> result = restTemplate.getForObject(
                 "http://PERSONNEL-INFO-SERVICE/personnel-info/getAll", List.class);
 
