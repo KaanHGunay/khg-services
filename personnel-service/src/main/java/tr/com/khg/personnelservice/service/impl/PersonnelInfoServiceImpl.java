@@ -1,6 +1,7 @@
 package tr.com.khg.personnelservice.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tr.com.khg.personnelservice.domain.PersonnelInfo;
@@ -21,7 +22,15 @@ public class PersonnelInfoServiceImpl implements PersonnelInfoService {
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "fallBackPersonnelInfos")
+    @HystrixCommand(
+        fallbackMethod = "fallBackPersonnelInfos",
+        commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
+        }
+    )
     public List<PersonnelInfo> getAllPersonnelInfos() {
         List<Map<String, Object>> result = restTemplate.getForObject(
                 "http://PERSONNEL-INFO-SERVICE/personnel-info/getAll", List.class);
