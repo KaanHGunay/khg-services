@@ -29,7 +29,7 @@ public class PersonnelInfoServiceImpl implements PersonnelInfoService {
         fallbackMethod = "fallBackPersonnelInfos",
         // Ayrılan pool'a verilen isim (Default pool'dan böylelikle ayrılmaktadır.)
         threadPoolKey = "personnelInfoPool",
-        commandProperties = {
+        threadPoolProperties = {
             // Kabul edilen thread sayısı
             @HystrixProperty(name = "coreSize", value = "20"),
             // Kabul edilemeyip sıraya alınan max thread sayısı
