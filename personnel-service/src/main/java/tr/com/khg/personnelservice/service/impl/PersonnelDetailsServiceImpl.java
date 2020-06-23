@@ -16,13 +16,19 @@ public class PersonnelDetailsServiceImpl implements PersonnelDetailsService {
         this.restTemplate = restTemplate;
     }
 
+    // Hystrix kütüphanesi herhangi bir microservice'in çökmesi veya yavaşlama durumalarına karşı önlemler almak
+    // geliştirilmiştir.
     @Override
     @HystrixCommand(
         fallbackMethod = "fallBackPersonnelDetails",
         commandProperties = {
+            // Ne kadar sürede timeout'a düşeceği
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+            // Son kaç request değerlendirmeye alınacak
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+            // İncelenen değerlerin yüzde kaçı timeout'a düşerse harekete geçilecek
             @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
+            // Service rahatlatılmak için kaç saniye uyku modula alınacak
             @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
         }
     )

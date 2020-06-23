@@ -21,14 +21,19 @@ public class PersonnelInfoServiceImpl implements PersonnelInfoService {
         this.restTemplate = restTemplate;
     }
 
+    // Bulkhead pattern
+    // Her service için ayrı bir thread pool oluşturularak diğer service'lerden ayrılması sağlanmaktadır. Bu şekilde
+    // diğer service'lerin yavaşlaması bizim elimizde bulunan service'i etkilememektedir.
     @Override
     @HystrixCommand(
         fallbackMethod = "fallBackPersonnelInfos",
+        // Ayrılan pool'a verilen isim (Default pool'dan böylelikle ayrılmaktadır.)
+        threadPoolKey = "personnelInfoPool",
         commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
-            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
+            // Kabul edilen thread sayısı
+            @HystrixProperty(name = "coreSize", value = "20"),
+            // Kabul edilemeyip sıraya alınan max thread sayısı
+            @HystrixProperty(name = "maxQueueSize", value = "10"),
         }
     )
     public List<PersonnelInfo> getAllPersonnelInfos() {
