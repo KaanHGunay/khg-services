@@ -7,14 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="configuration-server" />
         <module name="personnel-info-service" />
-        <module name="personnel-service" />
-        <module name="personnel-detail-service" />
         <module name="eureka-server" />
+        <module name="personnel-detail-service" />
+        <module name="api-gateway" />
+        <module name="personnel-service" />
+        <module name="configuration-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="api-gateway" target="11" />
       <module name="configuration-server" target="11" />
       <module name="eureka-server" target="11" />
       <module name="personnel" target="11" />
@@ -25,6 +27,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
       <module name="configuration-server" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="personnel" options="-parameters" />

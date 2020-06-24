@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false # Zuul'ul kendi load balancer'ını kullanmak için
+
+server:
+  port: 8090
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+zuul:
+  routes:
+    personnel-service:
+      path: /personnel-service/**
+      serviceId: personnel-service  # Zuul tarafından kulanılacak proxy'ler
