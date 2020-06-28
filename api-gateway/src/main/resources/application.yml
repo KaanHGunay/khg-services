@@ -19,3 +19,10 @@ zuul:
     personnel-service:
       path: /personnel-service/**
       serviceId: personnel-service  # Zuul tarafından kulanılacak proxy'ler
+    user-service:
+      path: /user-service/**
+      serviceId: user-service
+  host:
+    connect-timeout-millis: 10000
+    connection-request-timeout-millis: 10000
+    socket-timeout-millis: 10000

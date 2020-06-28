@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/personnelDatabase</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="user_database@localhost" uuid="a3a6f2aa-5996-43c9-812b-baea23348e90">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3308/user_database</jdbc-url>
+    </data-source>
   </component>
 </project>

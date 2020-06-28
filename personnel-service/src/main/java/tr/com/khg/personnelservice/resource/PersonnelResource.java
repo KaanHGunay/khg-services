@@ -8,7 +8,10 @@ import tr.com.khg.personnelservice.domain.PersonnelDetails;
 import tr.com.khg.personnelservice.service.PersonnelDetailsService;
 import tr.com.khg.personnelservice.service.PersonnelInfoService;
 
+import javax.ws.rs.core.MediaType;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,7 +28,18 @@ public class PersonnelResource {
         this.personnelDetailsService = personnelDetailsService;
     }
 
-    @RequestMapping(value = "/getAllPersonnel", method = RequestMethod.GET)
+    @RequestMapping(
+        value = "/getAllPersonnel",
+        method = RequestMethod.GET,
+        consumes = {  // Kabul edilen tipler
+            MediaType.APPLICATION_XML, // Xml support
+            MediaType.APPLICATION_JSON
+        },
+        produces = {  // Üretilen tipler
+            MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_JSON
+        }
+    )
     public List<Personnel> getAllPersonnel() {
         return personnelInfoService.getAllPersonnelInfos().stream().map(personnelInfo -> {
             Personnel personnel = new Personnel();
