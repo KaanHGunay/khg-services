@@ -26,3 +26,24 @@ zuul:
     connect-timeout-millis: 10000
     connection-request-timeout-millis: 10000
     socket-timeout-millis: 10000
+
+api:
+  registration:
+    url:
+      path: /user-service/users
+  login:
+    url:
+      path: /user-service/users/login
+  users:
+    actuator:
+      url:
+        path: /user-service/actuator/*
+
+authorization:
+  token:
+    header:
+      name: Authorization
+      prefix: Bearer
+
+token:
+  secret: hfgry463hf746hf573ydh475fhy5739
