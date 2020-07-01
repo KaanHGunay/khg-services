@@ -5,6 +5,15 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false # Zuul'ul kendi load balancer'ını kullanmak için
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: khg
+    password: 123
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
 
 server:
   port: 8090
@@ -38,6 +47,10 @@ api:
     actuator:
       url:
         path: /user-service/actuator/*
+  zuul:
+    actuator:
+      url:
+        path: /actuator/*
 
 authorization:
   token:
@@ -47,3 +60,9 @@ authorization:
 
 token:
   secret: hfgry463hf746hf573ydh475fhy5739
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans, health, routes, httptrace

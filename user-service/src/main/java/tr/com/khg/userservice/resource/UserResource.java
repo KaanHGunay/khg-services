@@ -2,13 +2,11 @@ package tr.com.khg.userservice.resource;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tr.com.khg.userservice.domain.ui.CreateUserRequestModel;
 import tr.com.khg.userservice.domain.ui.CreateUserResponseModel;
 import tr.com.khg.userservice.service.UserEntityService;
@@ -19,9 +17,16 @@ import tr.com.khg.userservice.service.dto.UserDTO;
 public class UserResource {
 
     private final UserEntityService userEntityService;
+    private final Environment environment;
 
-    public UserResource(UserEntityService userEntityService) {
+    public UserResource(UserEntityService userEntityService, Environment environment) {
         this.userEntityService = userEntityService;
+        this.environment = environment;
+    }
+
+    @GetMapping("/token")
+    public String getToken() {
+        return environment.getProperty("token.secret");
     }
 
     @PostMapping(

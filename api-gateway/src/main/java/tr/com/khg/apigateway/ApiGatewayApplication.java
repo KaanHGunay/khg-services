@@ -15,3 +15,5 @@ public class ApiGatewayApplication {
 	}
 
 }
+
+// Run time'da ayarları değiştirmek için /actuator/bus-refresh adresine post request gönderilmeli
