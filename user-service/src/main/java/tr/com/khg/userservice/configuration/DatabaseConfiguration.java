@@ -3,6 +3,7 @@ package tr.com.khg.userservice.configuration;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -18,13 +19,19 @@ import java.util.Map;
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 
+    private final Environment environment;
+
+    public DatabaseConfiguration(Environment environment) {
+        this.environment = environment;
+    }
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3308/user_database");
         dataSource.setUsername( "root" );
-        dataSource.setPassword( "123" );
+        dataSource.setPassword( environment.getProperty("database.password") );
         return dataSource;
     }
 

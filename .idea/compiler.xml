@@ -11,12 +11,14 @@
         <module name="eureka-server" />
         <module name="personnel-detail-service" />
         <module name="api-gateway" />
+        <module name="albums" />
         <module name="user-service" />
         <module name="personnel-service" />
         <module name="configuration-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="albums" target="11" />
       <module name="api-gateway" target="11" />
       <module name="configuration-server" target="11" />
       <module name="eureka-server" target="11" />
@@ -29,6 +31,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="albums" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
       <module name="configuration-server" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
