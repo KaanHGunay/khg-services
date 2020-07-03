@@ -3,8 +3,10 @@ package tr.com.khg.userservice.service.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tr.com.khg.userservice.domain.ui.AlbumsResponseModel;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,5 +21,6 @@ public class UserDTO implements Serializable {
     private String password;
     private String userId;
     private String encryptedPassword;
+    private List<AlbumsResponseModel> albumsList;
 
 }

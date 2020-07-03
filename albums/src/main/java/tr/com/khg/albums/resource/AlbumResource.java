@@ -33,7 +33,8 @@ public class AlbumResource {
         produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
-        })
+        }
+    )
     public List<AlbumResponseModel> userAlbums(@PathVariable String id) {
 
         List<AlbumResponseModel> returnValue = new ArrayList<>();

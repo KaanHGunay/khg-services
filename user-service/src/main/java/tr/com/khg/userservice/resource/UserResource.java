@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tr.com.khg.userservice.domain.ui.CreateUserRequestModel;
 import tr.com.khg.userservice.domain.ui.CreateUserResponseModel;
+import tr.com.khg.userservice.domain.ui.UserResponseModel;
 import tr.com.khg.userservice.service.UserEntityService;
 import tr.com.khg.userservice.service.dto.UserDTO;
 
@@ -41,5 +42,14 @@ public class UserResource {
         UserDTO createdUser = userEntityService.createUser(userDto);
         CreateUserResponseModel returnValue = modelMapper.map(createdUser, CreateUserResponseModel.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
+    }
+
+    @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId) {
+
+        UserDTO userDTO = userEntityService.getUserByUserId(userId);
+        UserResponseModel returnValue = new ModelMapper().map(userDTO, UserResponseModel.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 }
