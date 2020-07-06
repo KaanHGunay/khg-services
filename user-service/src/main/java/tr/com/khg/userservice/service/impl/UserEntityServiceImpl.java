@@ -11,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import tr.com.khg.userservice.domain.UserEntity;
 import tr.com.khg.userservice.domain.ui.AlbumsResponseModel;
 import tr.com.khg.userservice.repository.UserEntityRepository;
+import tr.com.khg.userservice.service.AlbumsServiceClient;
 import tr.com.khg.userservice.service.UserEntityService;
 import tr.com.khg.userservice.service.dto.UserDTO;
 
@@ -30,18 +30,22 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final RestTemplate restTemplate;
+    // private final RestTemplate restTemplate;
 
     private final Environment environment;
 
+    private final AlbumsServiceClient albumsServiceClient;
+
     public UserEntityServiceImpl(UserEntityRepository userEntityRepository,
                                  BCryptPasswordEncoder bCryptPasswordEncoder,
-                                 RestTemplate restTemplate,
-                                 Environment environment) {
+                                 // RestTemplate restTemplate,
+                                 Environment environment,
+                                 AlbumsServiceClient albumsServiceClient) {
         this.userEntityRepository = userEntityRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.restTemplate = restTemplate;
+        // this.restTemplate = restTemplate;
         this.environment = environment;
+        this.albumsServiceClient = albumsServiceClient;
     }
 
     @Override
@@ -73,6 +77,8 @@ public class UserEntityServiceImpl implements UserEntityService {
         if(userEntity == null) throw new UsernameNotFoundException(userId);
 
         UserDTO userDTO = new ModelMapper().map(userEntity, UserDTO.class);
+
+        /*
         ResponseEntity<List<AlbumsResponseModel>> albumListResponse =
             restTemplate.exchange(
                 String.format(Objects.requireNonNull(environment.getProperty("albums.get")), userId),
@@ -82,6 +88,9 @@ public class UserEntityServiceImpl implements UserEntityService {
             );
 
         List<AlbumsResponseModel> albumsList = albumListResponse.getBody();
+         */
+
+        List<AlbumsResponseModel> albumsList = albumsServiceClient.getAlbums(userId);
         userDTO.setAlbumsList(albumsList);
 
         return userDTO;
