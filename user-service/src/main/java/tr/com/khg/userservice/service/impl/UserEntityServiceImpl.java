@@ -95,9 +95,9 @@ public class UserEntityServiceImpl implements UserEntityService {
         List<AlbumsResponseModel> albumsList = albumListResponse.getBody();
          */
 
-        List<AlbumsResponseModel> albumsList = null;
-        albumsList = albumsServiceClient.getAlbums(userId);
-
+        logger.info("Before album service call");
+        List<AlbumsResponseModel> albumsList = albumsServiceClient.getAlbums(userId);
+        logger.info("After album service call");
         userDTO.setAlbumsList(albumsList);
 
         return userDTO;
