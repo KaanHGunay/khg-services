@@ -1,7 +1,10 @@
 package tr.com.khg.userservice.service.impl;
 
+import feign.FeignException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -25,6 +28,8 @@ import java.util.UUID;
 
 @Service
 public class UserEntityServiceImpl implements UserEntityService {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final UserEntityRepository userEntityRepository;
 
@@ -90,7 +95,9 @@ public class UserEntityServiceImpl implements UserEntityService {
         List<AlbumsResponseModel> albumsList = albumListResponse.getBody();
          */
 
-        List<AlbumsResponseModel> albumsList = albumsServiceClient.getAlbums(userId);
+        List<AlbumsResponseModel> albumsList = null;
+        albumsList = albumsServiceClient.getAlbums(userId);
+
         userDTO.setAlbumsList(albumsList);
 
         return userDTO;
