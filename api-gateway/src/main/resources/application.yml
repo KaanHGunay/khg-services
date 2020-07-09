@@ -35,6 +35,7 @@ zuul:
     connect-timeout-millis: 10000
     connection-request-timeout-millis: 10000
     socket-timeout-millis: 10000
+  sensitive-headers: Cookie, Set-Cookie # Authorization (default'ta var) çıkararak alt microservice'lere gönderilmesi sağlanr
 
 api:
   registration:
